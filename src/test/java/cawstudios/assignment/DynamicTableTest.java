@@ -11,11 +11,15 @@ public class DynamicTableTest  {
 	
 	@Test
 	public void sampleTest() {
-
+		
+		//Initialized WebDriver
+		
 		WebDriver driver = new ChromeDriver();
 
 		driver.get("https://testpages.eviltester.com/styled/tag/dynamic-table.html");
-
+		
+		//Implementing Implicit wait mechanism for 5 seconds
+		
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
 
@@ -39,7 +43,9 @@ public class DynamicTableTest  {
 			inputjson += "{\"name\":\"" +names[i] + "\",\"age\":" + ages[i] + ",\"gender\":\"" + genders[i] + "\"},";
 
 		}
-
+		
+		//Storing the json data in inputjson variable for reusability
+		
 		inputjson = inputjson.substring(0,inputjson.length()-1) + "]";
 
 		JSONArray array = new JSONArray(inputjson); 
@@ -55,11 +61,14 @@ public class DynamicTableTest  {
 		for(int j = 0;j<names.length;j++)
 
 		{
+			// Extracting the data from the table
 
 			String name = driver.findElement(By.xpath("//td[text()='" + names[j] + "']")).getText();
 			String age = driver.findElement(By.xpath("//td[text()='" + ages[j] + "']")).getText();
 			String gender = driver.findElement(By.xpath("//td[text()='" + genders[j] + "']")).getText();
-
+			
+			// Asserting the data which is present at the table with the data which we stored in the text box
+			
 			assert array.getJSONObject(j).getString("name").equals(name);
 			assert array.getJSONObject(j).optString("age").equals(age);
 			assert array.getJSONObject(j).getString("gender").equals(gender);
